@@ -23,22 +23,6 @@ public class ServerControllerUnitTest {
     public ServerControllerUnitTest() {
         this.serverController = new ServerController();
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     @Test
     public void testCheckKey(){
