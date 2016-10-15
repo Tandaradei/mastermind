@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Server.ServerController;
+import Base.*;
 /**
  *
  * @author laurin.agostini
@@ -15,6 +15,8 @@ public class Main {
      */
     
     public static void main(String[] args) {
+        BaseGUI baseGUI = new BaseGUI(800, 600);
+        baseGUI.show();
     }
     
 }
