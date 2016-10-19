@@ -10,5 +10,10 @@ package Base;
  * @author laurin.agostini
  */
 public class BaseController {
+    BaseGUI gui;
+    public BaseController(){
+        gui = new BaseGUI(this, 800, 600);
+        gui.show();
+    }
     
 }
