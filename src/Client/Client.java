@@ -44,27 +44,6 @@ class Client {
                 break;
             }
             System.out.println("Server: " + line);
-
-            /*************************************************************
-
-            String input[] = line.split(" ", 2);
-            String command = input[0];
-            String argument = input[1];
-
-            if (command) {
-
-            } else {
-                System.out.println("Fuck");
-            }
-
-            if (command.equals("SETUP")) {
-                String reply = "Setup triggered with the argument: " + argument;
-                //TODO
-                System.out.println(reply);
-            }
-
-
-            *************************************************************/
         }
 
         s.shutdownOutput();
