@@ -29,7 +29,7 @@ class Client {
         while (true) {
 			
 			// Clienteingabe (User)
-            System.out.print("Client #: ");
+            //System.out.print("Client #: ");
             String line = usr.readLine();
             if (line == null || line.equals("")) {
                 break;
@@ -43,7 +43,7 @@ class Client {
             if (line == null) {
                 break;
             }
-            System.out.println("Server: " + line);
+            System.out.println(line);
         }
 
         s.shutdownOutput();

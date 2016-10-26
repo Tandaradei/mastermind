@@ -3,6 +3,48 @@ import java.io.*;
 
 class Server {
 
+    public static String scope[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+    public static String player = "";
+    public static String sequence = "";
+    public static int number = 0;
+
+    public static String newgame(String argument) {
+        player = argument;
+        number = (int) (Math.random() * (14)) + 2;
+
+        for (int i = 0; i < number; i++) {
+            sequence += scope[(int) (Math.random() * (15))];
+        }
+
+        return "SETUP " + number + " " + sequence;
+    }
+
+    public static String check(String argument) {
+        String result = "";
+
+        for (int i = 0; i < argument.length(); i++) {
+            char charFake = argument.charAt(i);
+            char charReal = sequence.charAt(i);
+
+            if (charFake == charReal) {
+                result += "B";
+            } else {
+                for (int j = 0; j < sequence.length(); j++) {
+                    if (charFake == sequence.charAt(j)) {
+                        result += "W";
+                        break;
+                    }
+                }
+            }
+        }
+
+        result = (result.length() == 0) ? "0" : result;
+
+        return "RESULT " + result;
+    }
+
+
+
     public static String getMyAddress() {
         String address = "";
         try(final DatagramSocket socket = new DatagramSocket()){
@@ -12,7 +54,7 @@ class Server {
         } catch(Exception exp){}
         return address;
    }
-    public static void main (String [] args) throws IOException {
+    public static void main(String [] args) throws IOException {
     int port = 50004;
     String hostname = getMyAddress();
 
@@ -47,34 +89,15 @@ class Server {
         //line = usr.readLine();
         //if (line == null || line.equals("")) break;
 
-        /*************************************************************/
-        /*************************************************************/
-        /*************************************************************/
 
+        //Router
+        String response = "Not a valid command";
+        String input[] = line.split(" ", 2);
+        String command = (input.length > 0) ? input[0] : null;
+        String argument = (input.length > 1) ? input[1] : null;
 
-         String input[] = line.split(" ", 2);
-         String command = (input.length > 0) ? input[0] : null;
-         String argument = (input.length > 1) ? input[1] : null;
-
-        // "response" ist der String, der an den Client zurueckgegeben wird.
-         String response = "Not a valid command";
-
-        // Reaktionen von Server auf Aktionen von Client
-
-        if (command.equals("NEWGAME")) {
-             response = "NEWGAME triggered with the argument: " + argument;
-             //TODO
-        }
-
-        if (command.equals("CHECK")) {
-            response = "CHECK triggered with the argument: " + argument;
-            //TODO
-        }
-
-
-        /*************************************************************/
-        /*************************************************************/
-        /*************************************************************/
+        response = (command.equals("NEWGAME")) ? newgame(argument) : response;
+        response = (command.equals("CHECK")) ? check(argument) : response;
 
         // Ausgabestrom schreiben
         out.write(String.format("%s%n", response));
