@@ -15,7 +15,8 @@ public class Main {
      */
     
     public static void main(String[] args) {
-        BaseController baseController = new BaseController();
+        MainGUI gui = new MainGUI(800, 600);
+        gui.init();
     }
     
 }

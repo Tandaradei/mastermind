@@ -13,17 +13,14 @@ import Menu.MainMenu;
  *
  * @author laurin.agostini
  */
-public class BaseGUI extends JFrame{
+public class MainGUI extends JFrame implements GUI{
     MainMenu mainMenu;
-    BaseController controller;
     JComponent currentComponent;
     
-    
-    public BaseGUI(BaseController baseController, int sizeX, int sizeY) {
+    public MainGUI(int sizeX, int sizeY) {
         super("Mastemind");
-        controller = baseController;
-        this.setSize(sizeX, sizeY);
         mainMenu = new MainMenu(this, null);
+        this.setSize(sizeX, sizeY);
     }
     
     public void init(){
@@ -36,16 +33,17 @@ public class BaseGUI extends JFrame{
         this.setVisible(true);
     }
     
-    public void draw(){
-        
-    }
-    
     public void redraw(){
         this.remove(currentComponent);
         currentComponent = mainMenu.getContent("");
         this.add(currentComponent);
         
         this.revalidate();
+    }
+    
+    public void close(){
+        this.setVisible(false);
+        this.dispose();
     }
     
     

@@ -5,7 +5,7 @@
  */
 package Menu;
 
-import Base.BaseGUI;
+import Base.GUI;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.*;
@@ -23,7 +23,7 @@ public class MainMenu extends Menu{
     ImageIcon playButtonIcon = new ImageIcon("images/play.png");
     ImageIcon hostButtonIcon = new ImageIcon("images/host.png");
     
-    public MainMenu(BaseGUI gui, Menu last){
+    public MainMenu(GUI gui, Menu last){
         super(gui, last);
         name = "Main";
         me = this;

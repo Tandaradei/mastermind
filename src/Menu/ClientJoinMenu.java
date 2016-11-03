@@ -6,7 +6,8 @@
 package Menu;
 
 
-import Base.BaseGUI;
+import Client.*;
+import Base.GUI;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,7 +18,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 import java.util.regex.Pattern;
+import java.io.IOException;
 
 /**
  *
@@ -28,7 +31,7 @@ public class ClientJoinMenu extends Menu{
     static private final String IPV4_REGEX = "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))";
     static private Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
     
-    public ClientJoinMenu(BaseGUI gui, Menu last){
+    public ClientJoinMenu(GUI gui, Menu last){
         super(gui, last);
         name = "Join";
         me = this;
@@ -40,30 +43,17 @@ public class ClientJoinMenu extends Menu{
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 0;
         c.gridy = 0;
         
-        // Back button if we can go back
-        if(last != null){
-            JButton backButton = new JButton("Back");
-            backButton.setBackground(java.awt.Color.GRAY);
-            backButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent ae){
-                    last.removeNext();
-                }
-            });
-
-            panel.add(backButton, c);
-        }
-        
         // IP adress
-        JLabel ipLabel = new JLabel("IP-adress");
+        JLabel ipLabel = new JLabel("IP");
         c.gridx = 0;
         c.gridy = 1;
         panel.add(ipLabel, c);
         
-        JTextField ipText = new JTextField(15);
+        JTextField ipText = new JTextField("192.168.2.102", 15);
         c.gridx = 0;
         c.gridy = 2;
         panel.add(ipText, c);
@@ -79,12 +69,19 @@ public class ClientJoinMenu extends Menu{
         c.gridy = 2;
         panel.add(portText, c);
         
+        
+        
+        JCheckBox external = new JCheckBox();
+        external.setText("Start in new window");
+        c.gridx = 0;
+        c.gridy = 3;
+        panel.add(external, c);
+
         JLabel errorText = new JLabel();
         errorText.setForeground(Color.red);
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 4;
         panel.add(errorText, c);
-        
         //Join button
         JButton joinButton = new JButton("Join");
         joinButton.setBackground(java.awt.Color.GRAY);
@@ -92,11 +89,26 @@ public class ClientJoinMenu extends Menu{
             public void actionPerformed(ActionEvent ae){
                 if(isValidIPV4(ipText.getText())){
                     errorText.setText("");
-                    System.out.println("Join server at " + ipText.getText() + ":" + portText.getText());
+                    ClientController client = new ClientController("Client04");
+                    int port = Integer.parseInt(portText.getText());   
+                    if(client.connect(ipText.getText(), port)){
+                        if(external.isSelected()){
+                            ClientGUI clientGUI = new ClientGUI(800, 600, client);
+                            clientGUI.init();
+                        }
+                        else{
+                            next = new ClientPlayMenu(gui, me, client);
+                            gui.redraw();
+                        }
+                    }
+                    else{
+                        errorText.setText("Can't connect to server");
+                    }
+                    
                 }
                 else{
-                    errorText.setText("No valid IP-adress");
-                    System.out.println("No valid IP-adress");
+                    errorText.setText("No valid IP");
+                    System.out.println("No valid IP");
                 }
             }
         });

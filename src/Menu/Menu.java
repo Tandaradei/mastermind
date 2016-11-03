@@ -5,9 +5,11 @@
  */
 package Menu;
 
-import Base.BaseGUI;
+import Base.GUI;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 /**
  *
@@ -18,9 +20,9 @@ public abstract class Menu {
     Menu last = null;
     Menu next = null;
     Menu me = null;
-    BaseGUI gui;
+    GUI gui;
     
-    public Menu(BaseGUI gui, Menu last){
+    public Menu(GUI gui, Menu last){
         this.gui = gui;
         this.last = last;
         me = this;
@@ -35,15 +37,42 @@ public abstract class Menu {
             panel.setLayout(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
             
-            
-            JLabel label = new JLabel(path + name);
-            
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBagConstraints.VERTICAL;
             c.gridx = 0;
             c.gridy = 0;
-            panel.add(label, c);
+            
+            // Back button if we can go back
+            if(last != null){
+                JButton backButton = new JButton("Back");
+                backButton.setBackground(java.awt.Color.GRAY);
+                backButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent ae){
+                        last.removeNext();
+                    }
+                });
 
+                panel.add(backButton, c);
+            }
+            else{
+                JButton exitButton = new JButton("Exit");
+                exitButton.setBackground(java.awt.Color.GRAY);
+                exitButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent ae){
+                        onExit();
+                    }
+                });
+
+                panel.add(exitButton, c);
+            }
+            
+            JLabel label = new JLabel(path + name);
+            c.gridx = 1;
+            c.gridy = 0;
+            panel.add(label, c);
+            
+            c.gridx = 0;
             c.gridy = 1;
+            c.gridwidth = 2;
             panel.add(this.draw(), c);
             
             return panel;
@@ -59,5 +88,9 @@ public abstract class Menu {
     public void removeNext(){
         next = null;
         gui.redraw();
+    }
+    
+    private void onExit(){
+        gui.close();
     }
 }

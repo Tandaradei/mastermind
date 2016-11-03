@@ -5,16 +5,12 @@
  */
 package Base;
 
-import java.awt.event.*;
 /**
  *
  * @author laurin.agostini
  */
-public class BaseController {
-    BaseGUI gui;
-    public BaseController(){
-        gui = new BaseGUI(this, 800, 600);
-        gui.init();
-    }
-    
+public interface GUI {
+    public void init();
+    public void redraw();
+    public void close();
 }
