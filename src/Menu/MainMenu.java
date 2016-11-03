@@ -38,7 +38,7 @@ public class MainMenu extends Menu{
         c.gridx = 0;
         c.gridy = 0;
         
-        playButtonIcon.setImage(playButtonIcon.getImage().getScaledInstance(32,32, java.awt.Image.SCALE_DEFAULT));
+        playButtonIcon.setImage(playButtonIcon.getImage().getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
         
         JButton playButton = new JButton("Join a server", playButtonIcon);
         playButton.setBackground(java.awt.Color.GRAY);
@@ -50,7 +50,7 @@ public class MainMenu extends Menu{
         });
         panel.add(playButton, c);
         
-        hostButtonIcon.setImage(hostButtonIcon.getImage().getScaledInstance(32,32, java.awt.Image.SCALE_DEFAULT));
+        hostButtonIcon.setImage(hostButtonIcon.getImage().getScaledInstance(32,32, java.awt.Image.SCALE_SMOOTH));
         
         JButton hostButton = new JButton("Host a server", hostButtonIcon);
         hostButton.setBackground(java.awt.Color.GRAY);
